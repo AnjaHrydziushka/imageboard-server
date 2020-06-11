@@ -4,9 +4,13 @@ const bcrypt = require('bcrypt');
 
 const router = new Router();
 
-router.get("/", async (request, response) => {
-    const users = await User.findAll()
-    response.send(users);
+router.get("/", async (request, response, next) => {
+  try {
+    const allUsers = await User.findAll();
+    response.json(allUsers)
+  } catch (e) {
+    next(e)
+  }
 })
 
 router.post("/", async (req, res, next) => {
